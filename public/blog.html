@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Strapi Blog</title>
+</head>
+<body>
+
+<div>
+  <h2>The Blog</h2>
+  <div id="articles">
+    Write articles here
+  </div>
+</div>
+
+
+<script>
+  const displayArticles = async () => {
+    const res = await fetch('/articles');
+    const articles = await res.json();
+
+    console.log('displayArticles Articles: ', articles);
+
+    const container = document.querySelector('#articles');
+    container.innerHTML = '';
+
+    articles.forEach(article => {
+      /** IMAGE **/
+      const image = document.createElement('img');
+      image.setAttribute('src', article.thumbnail.url);
+      image.setAttribute('title', article.thumbnail.name);
+      container.appendChild(image);
+
+      /** TITLE **/
+      const title = document.createElement('h3');
+      title.innerText = article.title;
+      container.appendChild(title);
+
+      /** CONTENT **/
+      const content = document.createElement('div');
+      content.innerHTML = article.content;
+      container.appendChild(content);
+    })
+  };
+  displayArticles()
+</script>
+</body>
+</html>
